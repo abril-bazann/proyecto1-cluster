@@ -24,9 +24,13 @@ def calcula_anio_de_nacimiento(self, edad):
 def probando_html(self):
     mi_archivo=open('C:/Users/abril/OneDrive/Documentos/cluster_py/Proyecto1/plantillas/template1.html')
 
+    nom='Daniela'
+    ape='Lascano'
+    diccionario={'nombre':nom, 'apellido': ape}
+
     plantilla=Template(mi_archivo.read()) #leemos el archivo y lo guardamos en una variable. se convierte en un template
     mi_archivo.close() #cierro archivo
-    contexto=Context() #creamos contexto(diccionario) vacío
+    contexto=Context(diccionario) #mando al html las dos variables
 
     documento=plantilla.render(contexto) #renderizar: convertir un  texto en algo que pueda ser procesado por un navegador
 
