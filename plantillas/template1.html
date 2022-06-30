@@ -7,8 +7,19 @@
     <title>plantilla1</title>
 </head>
 <body>
-    <p> Nombre: {{nombre}}</p>
-    <p> Nombre: {{apellido}}</p>
+    <p style="color: red;"> Nombre: {{nombre}}</p>
+    <p style="color: blueviolet;"> Nombre: {{apellido}}</p>
+    <h2>lista de notas</h2>
+    
+    {% for nota in lista %}
+
+        {% if nota <= 6 %}
+            <p style="color: red;"> DESAPROBADO= {{nota}} </p>
+        {% else %}
+            <p style="color: green;"> APROBADO= {{nota}} </p>
+        {% endif%}
+
+    {% endfor %}
 
 </body>
 </html>

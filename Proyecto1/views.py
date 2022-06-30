@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.http import HttpResponse
 import datetime
-from django.template import Context, Template
+from django.template import Context, Template, loader
 
 
 def saludar(request):
@@ -22,16 +22,15 @@ def calcula_anio_de_nacimiento(self, edad):
     return HttpResponse("<h1>hola nací en el "+str(int(datetime.datetime.now().year)-int(edad))+"</h1>")
 
 def probando_html(self):
-    mi_archivo=open('C:/Users/abril/OneDrive/Documentos/cluster_py/Proyecto1/plantillas/template1.html')
 
     nom='Daniela'
     ape='Lascano'
-    diccionario={'nombre':nom, 'apellido': ape}
+    lista_de_notas=[1,2,3,4,5,6,7,8,9,10]
+    #(recorre lista de notas)
+    diccionario={'nombre':nom, 'apellido': ape, 'lista': lista_de_notas}
 
-    plantilla=Template(mi_archivo.read()) #leemos el archivo y lo guardamos en una variable. se convierte en un template
-    mi_archivo.close() #cierro archivo
-    contexto=Context(diccionario) #mando al html las dos variables
+    plantilla=loader.get_template('template1.html')
 
-    documento=plantilla.render(contexto) #renderizar: convertir un  texto en algo que pueda ser procesado por un navegador
+    documento=plantilla.render(diccionario) #renderizar: convertir un  texto en algo que pueda ser procesado por un navegador
 
     return HttpResponse(documento)
