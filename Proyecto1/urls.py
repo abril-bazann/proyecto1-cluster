@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from Proyecto1.views import saludar, segunda_vista, dia_de_hoy, saludo_con_nombre, calcula_anio_de_nacimiento, probando_html
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('saludo/', saludar, name='saludar'),
