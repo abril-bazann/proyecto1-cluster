@@ -1,8 +1,7 @@
 from datetime import datetime
 from django.http import HttpResponse
 import datetime
-from django.template import Context, Template
-from django.template import loader
+from django.template import Context, Template, loader
 
 def saludar(request):
 	return HttpResponse('Hola mundo!!')
