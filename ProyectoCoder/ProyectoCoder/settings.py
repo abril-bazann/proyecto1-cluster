@@ -55,7 +55,7 @@ ROOT_URLCONF = 'ProyectoCoder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['C:/Users/abril/OneDrive/Documentos/proyecto1-cluster/plantillas/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
