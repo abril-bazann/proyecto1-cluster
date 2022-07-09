@@ -35,8 +35,8 @@ class Familia(models.Model):
 
     apellido= models.CharField(max_length=50)
 
-    anio_de_nacimiento= models.IntegerField() 
+    anio_de_nacimiento= models.DateField() 
 
     edad= models.IntegerField(null=True) 
 
-    hoy=models.CharField(max_length=50, null=True)
+    hoy=models.DateField(max_length=50, null=True)
