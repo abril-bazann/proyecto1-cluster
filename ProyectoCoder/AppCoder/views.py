@@ -1,11 +1,17 @@
 from django.shortcuts import render
-from AppCoder.models import Familia
+from AppCoder.models import Familia, Curso
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
 
 # Create your views here.
+def curso(self):
+    curso=Curso(nombre='Sistemas', comision=37060)
+    curso.save()
+    texto=f'Curso creado: {curso.nombre} {curso.comision} '
+
+    return HttpResponse(texto)
 
 def mama(self):
     nombre='Daniela'
