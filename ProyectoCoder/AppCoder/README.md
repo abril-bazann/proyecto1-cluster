@@ -9,7 +9,7 @@ Para probarlo lo primero que se debe hacer es:
 Los archivos dentro de AppCoder que son muy necesarios para entender el Proyecto son:
  - El archivo views.py, donde se pueden ver las vistas.
  - El archivo urls.py, en el cual se linkean esas mismas vistas.
- - Las templates html en donde se mostrarán las vistas. 
+ - Las templates html, en donde se mostrarán las vistas. 
  - Y el archivo forms.py, con las clases para crear el o los formularios.
 
 
@@ -42,7 +42,7 @@ Lo que se necesitó es:
 4- Y La vista buscar (también registrada en urls.py)
 
 
-Primero, en busqueda_comision(request), se renderiza al archivo busqueda_comision.html para que muestre el formulario. Después, dentro de la vista buscar, utilizando el método GET, buscamos la comision guardándola dentro de una variable denominada "camada". En la variable "cursos" notamos una búsqueda por filtros en la base de datos con objects.filter dentro de la clase Curso. Luego, se renderiza en un archivo nuevo, resultados_busqueda.html, y se muestra el resultado. Dentro de la template de respuesta, podemos ver una sentencia if y dentro un for, donde se encuentra la lista de nombre y comisión requerida.  Sino, se encuentra un error en lo requerido, devolviendo otro diccionario: {"error": "No se ingresó ninguna comisión"}.
+Primero, en busqueda_comision(request), se renderiza al archivo busqueda_comision.html para que muestre el formulario. Después, dentro de la vista buscar, utilizando el método GET, buscamos la comision guardándola dentro de una variable denominada "camada". En la variable "cursos", notamos una búsqueda por filtros en la base de datos con objects.filter dentro de la clase Curso. Luego, se renderiza en un archivo nuevo, resultados_busqueda.html, y se muestra el resultado. Dentro de la template de respuesta, podemos ver una sentencia if y dentro, un for, donde se encuentra la lista de nombre y comisión requerida.  Sino, se encuentra un error en lo requerido, devolviendo otro diccionario: {"error": "No se ingresó ninguna comisión"}.
 
 
 
