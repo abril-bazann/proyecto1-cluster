@@ -1,9 +1,11 @@
+import email
 from django.shortcuts import render
-from AppCoder.models import Familia, Curso
+from AppCoder.models import Familia, Curso, Profesor
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
+from AppCoder.forms import Curso_form, Profe_form
 
 # Create your views here.
 def curso(self):
@@ -74,5 +76,55 @@ def tia(self):
 
     return HttpResponse(documento)
 
+'''def curso_formulario(request):
+    if (request.method=="POST"):
+        nombre= request.POST.get("curso")
+        comision= request.POST.get("comision")
+        curso=Curso(nombre=nombre, comision=comision)
+        curso.save()
+        return render (request, "AppCoder/inicio.html")
+
+    return render(request, "AppCoder/curso_formulario.html") VISTA PRA FORM HTML'''
+
+def curso_formulario(request):
+    if (request.method=="POST"):
+        form=Curso_form(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            nombre =info["nombre"]
+            comision =info["comision"]
+            curso=Curso(nombre=nombre, comision=comision)
+            curso.save()
+            return render (request, "AppCoder/inicio.html")
+    else:
+        form=Curso_form() #creo el form vacío
+    return render(request, "AppCoder/curso_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
 
 
+def profe_formulario(request):
+    if (request.method=="POST"):
+        form=Profe_form(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            nombre =info["nombre"]
+            apellido =info["apellido"]
+            email =info["email"]
+            profesion =info["profesion"]
+            profe=Profesor(nombre=nombre, apellido=apellido, email=email, profesion=profesion)
+            profe.save()
+            return render (request, "AppCoder/inicio.html")
+    else: #sino viene por GET
+        form=Profe_form() #creo el form vacío
+    return render(request, "AppCoder/profe_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
+
+
+def busqueda_comision(request):
+    return render(request, "AppCoder/busqueda_comision.html")
+
+def buscar(request):
+    if request.GET["comision"]:
+        camada=request.GET["comision"]
+        cursos=Curso.objects.filter(comision=camada) #comision__icontains=camada: traerá comisiones que contienen los mismos numeros de la comision que se busca
+        return render(request, "AppCoder/resultados_busqueda.html", {"cursos":cursos})
+    else:
+        return render(request, "AppCoder/busqueda_comision.html", {"error": "No se ingresó ninguna comisión"})
