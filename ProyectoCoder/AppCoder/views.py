@@ -1,11 +1,11 @@
 import email
 from django.shortcuts import render
-from AppCoder.models import Familia, Curso, Profesor, Playlist
+from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
-from AppCoder.forms import Curso_form, Profe_form, Playlist_form
+from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form
 
 
 # Create your views here.
@@ -156,3 +156,33 @@ def buscar_cancion(request):
         return render(request, "AppCoder/resultados_busqueda_cancion.html", {"canciones":canciones})
     else:
         return render(request, "AppCoder/busqueda_cancion.html", {"error": "No se ingresó ninguna canción"})
+
+
+#ARTISTA
+def artista_formulario(request):
+    if (request.method=="POST"):
+        form=Artista_form(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            nombre_completo=info["nombre_completo"]
+            nacionalidad=info["nacionalidad"]
+            arte=info["arte"]
+            artistas=Artista(nombre_completo=nombre_completo, nacionalidad=nacionalidad, arte=arte)
+            artistas.save()
+            return render (request, "AppCoder/inicio.html")
+    else: #sino viene por GET
+        form=Artista_form() #creo el form vacío
+    return render(request, "AppCoder/artista_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
+
+def busqueda_artista(request):
+    return render(request, "AppCoder/busqueda_artista.html")
+
+def buscar_artista(request):
+    if request.GET["nombre_completo"]:
+        nombre_completo=request.GET["nombre_completo"]
+        artistas=Artista.objects.filter(nombre_completo__icontains=nombre_completo)
+        return render(request, "AppCoder/resultados_busqueda_artista.html", {"artistas":artistas})
+    else:
+        return render(request, "AppCoder/busqueda_artista.html", {"error": "No se ingresó ningún artista con ese nombre"})
+
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>RESULTADOS DE LA BÚSQUEDA DE ARTISTAS</h1>
+    {% if artistas %}
+
+    {% for artista in artistas %}
+    <ul>
+        <li>{{artista.nombre_completo}} - {{artista.arte}}</li>
+        <br>
+    </ul>
+    {% endfor %}
+
+    {% else %}
+        <p>No hay artista con ese nombre :(</p>
+        
+    {% endif %}
+</body>
+</html>

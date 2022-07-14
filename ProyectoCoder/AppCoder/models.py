@@ -62,5 +62,13 @@ class Playlist(models.Model):
         return self.nombre_cancion+" - "+str(self.artista)
 
 
+class Artista(models.Model):
+    nombre_completo= models.CharField(max_length=50)
 
+    nacionalidad= models.CharField(max_length=50)
+
+    arte= models.CharField(max_length=50) 
+
+    def __str__(self):
+        return self.nombre_completo+" - "+str(self.arte)
 
