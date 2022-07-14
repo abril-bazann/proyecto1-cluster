@@ -1,11 +1,11 @@
 import email
 from django.shortcuts import render
-from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista
+from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
-from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form
+from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form
 
 
 # Create your views here.
@@ -76,16 +76,6 @@ def tia(self):
     documento=plantilla.render(diccionario) 
 
     return HttpResponse(documento)
-
-'''def curso_formulario(request):
-    if (request.method=="POST"):
-        nombre= request.POST.get("curso")
-        comision= request.POST.get("comision")
-        curso=Curso(nombre=nombre, comision=comision)
-        curso.save()
-        return render (request, "AppCoder/inicio.html")
-
-    return render(request, "AppCoder/curso_formulario.html") VISTA PRA FORM HTML'''
 
 def curso_formulario(request):
     if (request.method=="POST"):
@@ -186,3 +176,29 @@ def buscar_artista(request):
         return render(request, "AppCoder/busqueda_artista.html", {"error": "No se ingresó ningún artista con ese nombre"})
 
 
+#ALBUM
+def album_formulario(request):
+    if (request.method=="POST"):
+        form=Album_form(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            nombre_album=info["nombre_album"]
+            creador=info["creador"]
+            año=info["año"]
+            albums=Album(nombre_album=nombre_album, creador=creador, año=año)
+            albums.save()
+            return render (request, "AppCoder/inicio.html")
+    else: #sino viene por GET
+        form=Album_form() #creo el form vacío
+    return render(request, "AppCoder/album_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
+
+def busqueda_album(request):
+    return render(request, "AppCoder/busqueda_album.html")
+
+def buscar_album(request):
+    if request.GET["nombre_album"]:
+        nombre_album=request.GET["nombre_album"]
+        albums=Album.objects.filter(nombre_album__icontains=nombre_album)
+        return render(request, "AppCoder/resultados_busqueda_album.html", {"albums":albums})
+    else:
+        return render(request, "AppCoder/busqueda_album.html", {"error": "No se ingresó ningún album con ese nombre"})

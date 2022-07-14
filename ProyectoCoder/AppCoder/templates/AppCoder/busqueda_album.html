@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario para album</title>
+</head>
+<body>
+    <h1>Búsqueda de album</h1>
+    {% if formulario.errors %}
+    <p style="color: red;">Hay algo mal en el formulario, revisalo</p>
+    {% endif %}
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form action="{% url 'buscar_album' %}" method="GET"> 
+        <!--
+            si estoy por get NO es necesario el csrf_token
+        -->
+
+        <input type="text" name="nombre_album" id="nombre_album">
+
+        <input type="submit" value="Buscar">
+
+    </form>
+</body>
+</html>

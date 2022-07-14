@@ -72,3 +72,13 @@ class Artista(models.Model):
     def __str__(self):
         return self.nombre_completo+" - "+str(self.arte)
 
+
+class Album(models.Model):
+    nombre_album= models.CharField(max_length=50)
+
+    creador= models.CharField(max_length=50)
+
+    año= models.IntegerField()
+
+    def __str__(self):
+        return self.nombre_album+ " by "+self.creador +" - "+str(self.año)
