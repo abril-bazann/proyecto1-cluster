@@ -1,11 +1,12 @@
 import email
 from django.shortcuts import render
-from AppCoder.models import Familia, Curso, Profesor
+from AppCoder.models import Familia, Curso, Profesor, Playlist
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
-from AppCoder.forms import Curso_form, Profe_form
+from AppCoder.forms import Curso_form, Profe_form, Playlist_form
+
 
 # Create your views here.
 def curso(self):
@@ -128,3 +129,30 @@ def buscar(request):
         return render(request, "AppCoder/resultados_busqueda.html", {"cursos":cursos})
     else:
         return render(request, "AppCoder/busqueda_comision.html", {"error": "No se ingresó ninguna comisión"})
+
+
+def playlist_formulario(request):
+    if (request.method=="POST"):
+        form=Playlist_form(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            nombre_cancion=info["nombre_cancion"]
+            artista=info["artista"]
+            album=info["album"]
+            playlist=Playlist(nombre_cancion=nombre_cancion, artista=artista, album=album)
+            playlist.save()
+            return render (request, "AppCoder/inicio.html")
+    else: #sino viene por GET
+        form=Playlist_form() #creo el form vacío
+    return render(request, "AppCoder/playlist_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
+
+def busqueda_cancion(request):
+    return render(request, "AppCoder/busqueda_cancion.html")
+
+def buscar_cancion(request):
+    if request.GET["nombre_cancion"]:
+        nombre_cancion=request.GET["nombre_cancion"]
+        canciones=Playlist.objects.filter(nombre_cancion__icontains=nombre_cancion)
+        return render(request, "AppCoder/resultados_busqueda_cancion.html", {"canciones":canciones})
+    else:
+        return render(request, "AppCoder/busqueda_cancion.html", {"error": "No se ingresó ninguna canción"})

@@ -9,3 +9,9 @@ class Profe_form(forms.Form):
     apellido=forms.CharField(max_length=50)
     email=forms.EmailField()
     profesion=forms.CharField(max_length=50)
+
+
+class Playlist_form(forms.Form):
+    nombre_cancion=forms.CharField(max_length=50)
+    artista=forms.CharField(max_length=50)
+    album=forms.CharField(max_length=50)

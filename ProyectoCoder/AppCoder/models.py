@@ -49,3 +49,25 @@ class Familia(models.Model):
     edad= models.IntegerField(null=True) 
 
     hoy=models.DateField(max_length=50, null=True)
+
+
+class Playlist(models.Model):
+    nombre_cancion= models.CharField(max_length=50)
+
+    artista= models.CharField(max_length=50)
+
+    album= models.CharField(max_length=50) 
+
+    def __str__(self):
+        return self.nombre_cancion+" - "+str(self.artista)
+
+class Artista(models.Model):
+    nombre= models.CharField(max_length=50)
+
+    nacionalidad= models.CharField(max_length=50)
+
+    profesion= models.CharField(max_length=50) 
+
+    def __str__(self):
+        return self.nombre+" - "+str(self.profesion)
+
