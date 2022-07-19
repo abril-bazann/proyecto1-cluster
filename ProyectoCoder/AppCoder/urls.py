@@ -23,4 +23,6 @@ urlpatterns = [
     path('busqueda_album/', busqueda_album, name= 'busqueda_album'),
     path('buscar_album/', buscar_album, name= 'buscar_album'),
     path('leer_profesores/', leer_profesores, name= 'leer_profesores'),
+    path('eliminar_profesor/<nombre_profesor>', eliminar_profesor, name= 'eliminar_profesor'),
+    path('editar_profesor/<nombre_profesor>', editar_profesor, name= 'editar_profesor'),
 ]

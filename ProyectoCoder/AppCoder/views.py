@@ -1,4 +1,5 @@
 import email
+from wsgiref.util import request_uri
 from django.shortcuts import render
 from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album
 from django.http import HttpResponse
@@ -208,3 +209,28 @@ def buscar_album(request):
 def leer_profesores(request):
     profesores=Profesor.objects.all()
     return render(request, "AppCoder/leer_profesores.html", {"profesores":profesores})
+
+def eliminar_profesor(request, nombre_profesor):
+    profe=Profesor.objects.get(nombre=nombre_profesor)
+    profe.delete()
+#traigo de nuevo a todos los profes y muestra la modificacion
+    profesores=Profesor.objects.all()
+    return render(request, "AppCoder/leer_profesores.html", {"profesores":profesores})
+
+def editar_profesor(request, nombre_profesor):
+    profe=Profesor.objects.get(nombre=nombre_profesor) 
+    #hay diferencia entre get (tomar un nombre de la base) y GET (método, GET O POST)  
+    if request.method=="POST": #POST: por form. por GET: por línea de direcciones
+        form=Profe_form(request.POST)
+        if form.is_valid():
+            info=form.cleaned_data
+            profe.nombre=info["nombre"]
+            profe.apellido=info["apellido"]
+            profe.email=info["email"]
+            profe.profesion=info["profesion"]
+            profe.save()
+            return render(request, "AppCoder/inicio.html")
+        else:
+            form=Profe_form(inicial={"nombre": profe.nombre, "apellido": profe.apellido, "email": profe.email, "profesion": profe.profesion}) #es el Profe_form pero con los valores que elegimos
+        return render(request, "AppCoder/editar_profe.html", {"formulario":form, "nombre_profesor":nombre_profesor})
+
