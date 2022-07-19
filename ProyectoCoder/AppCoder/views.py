@@ -230,7 +230,7 @@ def editar_profesor(request, nombre_profesor):
             profe.profesion=info["profesion"]
             profe.save()
             return render(request, "AppCoder/inicio.html")
-        else:
-            form=Profe_form(inicial={"nombre": profe.nombre, "apellido": profe.apellido, "email": profe.email, "profesion": profe.profesion}) #es el Profe_form pero con los valores que elegimos
-        return render(request, "AppCoder/editar_profe.html", {"formulario":form, "nombre_profesor":nombre_profesor})
+    else:
+        form=Profe_form(initial={"nombre": profe.nombre, "apellido": profe.apellido, "email": profe.email, "profesion": profe.profesion}) #es el Profe_form pero con los valores que elegimos
+    return render(request, "AppCoder/editar_profe.html", {"formulario":form, "nombre_profesor":nombre_profesor})
 
