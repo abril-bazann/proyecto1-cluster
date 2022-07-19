@@ -202,3 +202,9 @@ def buscar_album(request):
         return render(request, "AppCoder/resultados_busqueda_album.html", {"albums":albums})
     else:
         return render(request, "AppCoder/busqueda_album.html", {"error": "No se ingresó ningún album con ese nombre"})
+
+
+
+def leer_profesores(request):
+    profesores=Profesor.objects.all()
+    return render(request, "AppCoder/leer_profesores.html", {"profesores":profesores})

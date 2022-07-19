@@ -22,4 +22,5 @@ urlpatterns = [
     path('album_formulario/', album_formulario, name= 'album_formulario'),
     path('busqueda_album/', busqueda_album, name= 'busqueda_album'),
     path('buscar_album/', buscar_album, name= 'buscar_album'),
+    path('leer_profesores/', leer_profesores, name= 'leer_profesores'),
 ]
