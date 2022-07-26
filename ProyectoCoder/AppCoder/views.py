@@ -1,12 +1,14 @@
 import email
 from wsgiref.util import request_uri
 from django.shortcuts import render
-from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album
+from django.urls import reverse_lazy
+from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album, Estudiante
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
 from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 # Create your views here.
@@ -233,4 +235,29 @@ def editar_profesor(request, nombre_profesor):
     else:
         form=Profe_form(initial={"nombre": profe.nombre, "apellido": profe.apellido, "email": profe.email, "profesion": profe.profesion}) #es el Profe_form pero con los valores que elegimos
     return render(request, "AppCoder/editar_profe.html", {"formulario":form, "nombre_profesor":nombre_profesor})
+
+#vistas basadas en clases
+class Estudiante_list(ListView):
+    model=Estudiante
+    template_name="AppCoder/estudiantes_list.html"
+
+class Estudiante_detalle(DetailView):
+    model= Estudiante
+    template_name= "AppCoder/estudiante_detalle.html"
+
+class Estudiante_creacion(CreateView):
+    model=Estudiante
+    success_url= reverse_lazy('List') #reverse_lazy: a donde va a ir cuando termine la creacion
+    fields=['nombre', 'apellido', 'email']
+
+class Estudiante_update(UpdateView):
+    model=Estudiante
+    success_url= reverse_lazy('List') #reverse_lazy: a donde va a ir cuando termine la creacion
+    fields=['nombre', 'apellido', 'email']
+
+class Estudiante_delete(DeleteView):
+    model=Estudiante
+    success_url= reverse_lazy('List') 
+    fields=['nombre', 'apellido', 'email']
+
 

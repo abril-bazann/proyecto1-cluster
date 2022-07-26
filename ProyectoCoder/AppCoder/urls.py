@@ -25,4 +25,12 @@ urlpatterns = [
     path('leer_profesores/', leer_profesores, name= 'leer_profesores'),
     path('eliminar_profesor/<nombre_profesor>', eliminar_profesor, name= 'eliminar_profesor'),
     path('editar_profesor/<nombre_profesor>', editar_profesor, name= 'editar_profesor'),
+
+    #-----------
+    path('estudiante/list/', Estudiante_list.as_view(), name= 'List'),
+    path('estudiante/<pk>/', Estudiante_detalle.as_view(), name= 'Detail'),
+    path('estudiantes/nuevo/', Estudiante_creacion.as_view(), name= 'Create'),
+    path('estudiante/editar/<pk>', Estudiante_update.as_view(), name= 'Edit'),
+    path('estudiante/borrar/<pk>', Estudiante_delete.as_view(), name= 'Delete'),
+
 ]
