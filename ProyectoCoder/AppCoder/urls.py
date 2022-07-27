@@ -1,6 +1,7 @@
 from unicodedata import name
 from django.urls import path
 from .views import *
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('curso/', curso),
@@ -32,5 +33,9 @@ urlpatterns = [
     path('estudiantes/nuevo/', Estudiante_creacion.as_view(), name= 'Create'),
     path('estudiante/editar/<pk>', Estudiante_update.as_view(), name= 'Edit'),
     path('estudiante/borrar/<pk>', Estudiante_delete.as_view(), name= 'Delete'),
+    #-----------
+    path('login/', login_request, name= 'login'),
+    path('register/', register, name= 'register'),
+    path('logout/', LogoutView.as_view(template_name="AppCoder/logout.html"), name= 'logout'),
 
 ]

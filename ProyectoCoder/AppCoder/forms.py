@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class Curso_form(forms.Form): #es un form, hereda de un form
     nombre=forms.CharField(max_length=50)
@@ -25,3 +27,13 @@ class Album_form(forms.Form):
     nombre_album=forms.CharField(max_length=50)
     creador=forms.CharField(max_length=50)
     año=forms.CharField(max_length=50)
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        help_texts = {k:"" for k in fields}

@@ -1,0 +1,12 @@
+{% extends "AppCoder/padre.html" %}
+{% load static %}
+{% block contenido_que_cambia %}
+<h1>REGISTRATE</h1>
+<h2>{{ mensaje }}</h2>
+    <form action="{% url 'register' %}" method="POST"> {% csrf_token %}
+        {{ form.as_p }} 
+        <!--p:parrafo vs table:tabla-->
+        <button type="submit">Registrate</button>
+    </form>
+    
+{% endblock %}

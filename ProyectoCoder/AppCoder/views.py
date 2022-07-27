@@ -7,9 +7,12 @@ from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
-from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form
+from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form, UserRegisterForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def curso(self):
@@ -25,6 +28,7 @@ def inicio(request):
 def cursos(request):
     return render (request, "AppCoder/cursos.html")
 
+@login_required
 def profesores(request):
     return render (request, "AppCoder/profesores.html")
 
@@ -80,6 +84,7 @@ def tia(self):
 
     return HttpResponse(documento)
 
+@login_required
 def curso_formulario(request):
     if (request.method=="POST"):
         form=Curso_form(request.POST)
@@ -94,7 +99,7 @@ def curso_formulario(request):
         form=Curso_form() #creo el form vacío
     return render(request, "AppCoder/curso_formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
 
-
+@login_required
 def profe_formulario(request):
     if (request.method=="POST"):
         form=Profe_form(request.POST)
@@ -207,11 +212,12 @@ def buscar_album(request):
         return render(request, "AppCoder/busqueda_album.html", {"error": "No se ingresó ningún album con ese nombre"})
 
 
-
+@login_required
 def leer_profesores(request):
     profesores=Profesor.objects.all()
     return render(request, "AppCoder/leer_profesores.html", {"profesores":profesores})
 
+@login_required
 def eliminar_profesor(request, nombre_profesor):
     profe=Profesor.objects.get(nombre=nombre_profesor)
     profe.delete()
@@ -219,6 +225,7 @@ def eliminar_profesor(request, nombre_profesor):
     profesores=Profesor.objects.all()
     return render(request, "AppCoder/leer_profesores.html", {"profesores":profesores})
 
+@login_required
 def editar_profesor(request, nombre_profesor):
     profe=Profesor.objects.get(nombre=nombre_profesor) 
     #hay diferencia entre get (tomar un nombre de la base) y GET (método, GET O POST)  
@@ -237,27 +244,57 @@ def editar_profesor(request, nombre_profesor):
     return render(request, "AppCoder/editar_profe.html", {"formulario":form, "nombre_profesor":nombre_profesor})
 
 #vistas basadas en clases
-class Estudiante_list(ListView):
+class Estudiante_list(ListView, LoginRequiredMixin):
     model=Estudiante
     template_name="AppCoder/estudiantes_list.html"
 
-class Estudiante_detalle(DetailView):
+class Estudiante_detalle(DetailView, LoginRequiredMixin):
     model= Estudiante
     template_name= "AppCoder/estudiante_detalle.html"
 
-class Estudiante_creacion(CreateView):
+class Estudiante_creacion(CreateView, LoginRequiredMixin):
     model=Estudiante
     success_url= reverse_lazy('List') #reverse_lazy: a donde va a ir cuando termine la creacion
     fields=['nombre', 'apellido', 'email']
 
-class Estudiante_update(UpdateView):
+class Estudiante_update(UpdateView, LoginRequiredMixin):
     model=Estudiante
     success_url= reverse_lazy('List') #reverse_lazy: a donde va a ir cuando termine la creacion
     fields=['nombre', 'apellido', 'email']
 
-class Estudiante_delete(DeleteView):
+class Estudiante_delete(DeleteView, LoginRequiredMixin):
     model=Estudiante
     success_url= reverse_lazy('List') 
     fields=['nombre', 'apellido', 'email']
 
+
+def login_request(request):
+    if request.method=="POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid:
+            client=request.POST ['username']
+            clave=request.POST ['password']
+
+            usuario= authenticate(username=client, password=clave)
+            if usuario is not None:
+                login(request, usuario)
+                return render(request, "AppCoder/inicio.html", {"mensaje":f"Te doy la bienvenida {usuario}"})
+            else:
+                return render(request, "AppCoder/inicio.html", {"mensaje":"Error; datos incorrectos"})
+        else:
+            return render(request, "AppCoder/inicio.html", {"mensaje":"Error; formulario erroneo"})
+    form= AuthenticationForm()
+    return render(request, "AppCoder/login.html", {"form":form})
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+
+            form.save()
+            return render(request, 'AppCoder/inicio.html', {'form':form,'mensaje':f"Usuario Creado:  {username}"})
+    else:
+        form = UserRegisterForm()
+    return render(request, 'AppCoder/registro.html', {'form': form})
 
