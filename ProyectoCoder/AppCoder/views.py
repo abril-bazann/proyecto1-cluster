@@ -2,17 +2,18 @@ import email
 from wsgiref.util import request_uri
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album, Estudiante
+from AppCoder.models import Familia, Curso, Profesor, Playlist, Artista, Album, Estudiante, Avatar
 from django.http import HttpResponse
 from django.template import Context, Template, loader
 from datetime import datetime
 import datetime
-from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form, UserRegisterForm
+from AppCoder.forms import Curso_form, Profe_form, Playlist_form, Artista_form, Album_form, UserRegisterForm, UserEditForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def curso(self):
@@ -23,7 +24,10 @@ def curso(self):
     return HttpResponse(texto)
 
 def inicio(request):
-    return render (request, "AppCoder/inicio.html")
+    imagen=Avatar.objects.filter(user=request.user.id)
+    if imagen is not None:
+        imagen=Avatar.objects.filter(user=request.user.id)[0].imagen.url
+        return render(request, "AppCoder/inicio.html", {"imagen":imagen})
 
 def cursos(request):
     return render (request, "AppCoder/cursos.html")
@@ -297,4 +301,24 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'AppCoder/registro.html', {'form': form})
+
+@login_required
+def editar_perfil(request):
+    usuario=request.user
+    #si es metodo post hago lo mismo que al agregar
+    if request.method == 'POST':
+        formulario=UserEditForm(request.POST, instance=usuario)
+        if formulario.is_valid():
+            informacion=formulario.cleaned_data
+            #datos que se modifican
+            usuario.email=informacion['email']
+            usuario.password1=informacion['password1']
+            usuario.password2=informacion['password2']
+            usuario.save()
+            return render(request, 'AppCoder/inicio.html', {'usuario':usuario, 'mensaje':'PERFIL EDITADO EXITOSAMENTE'})
+    #en caso de q no sea post
+    else:
+        #creo form con los datos que voy a modificar
+        formulario=UserEditForm(instance=usuario)
+    return render(request, 'AppCoder/editar_perfil.html', {'formulario':formulario, 'usuario':usuario.username})
 
