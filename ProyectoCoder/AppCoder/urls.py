@@ -38,5 +38,6 @@ urlpatterns = [
     path('register/', register, name= 'register'),
     path('logout/', LogoutView.as_view(template_name="AppCoder/logout.html"), name= 'logout'),
     path('editar_perfil/', editar_perfil, name= 'editar_perfil'),
+    path('agregar_avatar/', agregar_avatar, name= 'agregar_avatar'),
 
 ]

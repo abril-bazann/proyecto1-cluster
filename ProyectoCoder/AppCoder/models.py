@@ -83,8 +83,9 @@ class Album(models.Model):
     def __str__(self):
         return self.nombre_album+ " by "+self.creador +" - "+str(self.año)
 
+
 class Avatar(models.Model):
     #vinculo a otro modelo. el modelo avatar con el user. 
-    user=models.ForeignKey(User,on_delete=models.CASCADE) #cascade: si elimino el usuario se elimina el avatar
+    user=models.ForeignKey(User, on_delete=models.CASCADE) #cascade: si elimino el usuario se elimina el avatar
     #avatar es un pk, una clave de un usuario
-    imagen=models.ImageField(upload_to='avatares', null=True, blank=True)
+    imagen= models.ImageField(upload_to='avatares', null=True, blank=True)
