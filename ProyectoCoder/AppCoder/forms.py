@@ -28,6 +28,17 @@ class Album_form(forms.Form):
     creador=forms.CharField(max_length=50)
     año=forms.CharField(max_length=50)
 
+'''class Formulario(forms.Form):
+
+    nombre_cancion=forms.CharField(max_length=50)
+    artista=forms.CharField(max_length=50)
+    
+    nombre_album=forms.CharField(max_length=50)
+    año=forms.CharField(max_length=50)
+
+    nacionalidad=forms.CharField(max_length=50)'''
+
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)

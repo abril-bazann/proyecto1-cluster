@@ -336,3 +336,69 @@ def agregar_avatar(request):
     else:
         formulario=AvatarForm()
     return render(request, 'AppCoder/agregar_avatar.html', {'formulario':formulario, 'usuario':request.user})
+
+
+
+#--------------- formulario general: prueba
+''' def formulario(request):
+    if (request.method=="POST"):
+        form=Formulario(request.POST)
+        if form.is_valid():
+            info= form.cleaned_data #dicc con la info sin lo demás
+            #album
+            nombre_album=info["nombre_album"]
+            año=info["año"]
+            #artista
+            nacionalidad=info["nacionalidad"]
+            #playlist
+            nombre_cancion=info["nombre_cancion"]
+            artista=info["artista"]
+
+            datos_album=Album(nombre_album=nombre_album, año=año) 
+            datos_artista=Artista(nacionalidad=nacionalidad)
+            datos_playlist=Playlist(nombre_cancion=nombre_cancion, artista=artista)
+            datos_album.save()
+            datos_playlist.save()
+            datos_artista.save()
+            return render (request, "AppCoder/inicio.html")
+    else: #sino viene por GET
+        form=Formulario() #creo el form vacío
+    return render(request, "AppCoder/formulario.html", {"formulario":form}) #lo renderizo y se lo mando como un dicc para que lo pueda usar la template
+
+def busqueda_formulario(request):
+    return render(request, "AppCoder/busqueda_formulario.html")
+
+def buscar_formulario(request):
+    if request.GET["nombre_album", "nombre_cancion", "artista", "año", "nacionalidad"]:
+        nombre_album=request.GET["nombre_album"]
+        nombre_cancion=request.GET["nombre_cancion"]
+        artista=request.GET["artista"]
+        año=request.GET["año"]
+        nacionalidad=request.GET["nacionalidad"]
+        datos_playlist= Playlist.objects.filter(nombre_cancion__icontains=nombre_cancion)
+        datos_album=Album.objects.filter(nombre_album__icontains=nombre_album, año__icontains=año, artista__icontains=artista)
+        datos_artista=Artista.objects.filter(nacionalidad__icontains=nacionalidad)
+
+
+
+
+        return render(request, "AppCoder/resultados_busqueda_formulario.html", {"datos":[datos_playlist, datos_artista, datos_album]})
+    else:
+        return render(request, "AppCoder/busqueda_formulario.html", {"error": "No se ingresó ningún dato con ese especificación"})
+
+def buscar_formulario(request):
+    if request.GET["nombre_completo"]:
+        nombre_completo=request.GET["nombre_completo"]
+        artistas=Artista.objects.filter(nombre_completo__icontains=nombre_completo)
+        return render(request, "AppCoder/resultados_busqueda_formulario.html", {"artistas":artistas})
+    else:
+        return render(request, "AppCoder/busqueda_artista.html", {"error": "No se ingresó ningún artista con ese nombre"})
+        
+    if request.GET["nombre_album"]:
+        nombre_album=request.GET["nombre_album"]
+        albums=Album.objects.filter(nombre_album__icontains=nombre_album)
+        return render(request, "AppCoder/resultados_busqueda_album.html", {"albums":albums})
+    else:
+        return render(request, "AppCoder/busqueda_album.html", {"error": "No se ingresó ningún album con ese nombre"})
+       
+'''
