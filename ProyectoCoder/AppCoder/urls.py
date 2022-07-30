@@ -28,9 +28,9 @@ urlpatterns = [
     path('editar_profesor/<nombre_profesor>', editar_profesor, name= 'editar_profesor'),
 
     #--------------
-'''    path('formulario/', formulario, name= 'formulario'),
-    path('busqueda_formulario/', busqueda_formulario, name= 'busqueda_formulario'),
-    path('buscar_formulario/', buscar_formulario, name= 'buscar_formulario'),'''
+    #path('formulario/', formulario, name= 'formulario'),
+    #path('busqueda_formulario/', busqueda_formulario, name= 'busqueda_formulario'),
+    #path('buscar_formulario/', buscar_formulario, name= 'buscar_formulario'),
     #-----------
     path('estudiante/list/', Estudiante_list.as_view(), name= 'List'),
     path('estudiante/<pk>/', Estudiante_detalle.as_view(), name= 'Detail'),
